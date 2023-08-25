@@ -175,13 +175,25 @@ public class FileMerger {
                     continue;
                 }
 
-                if (prevLine != null && line.compareTo(prevLine) < 0) {
-                    return false; // Файл не отсортирован
+                if (prevLine != null) {
+                    int comparison;
+                    if (dataType == DataType.NUMERIC) {
+                        comparison = Integer.compare(Integer.parseInt(line), Integer.parseInt(prevLine));
+                    } else {
+                        comparison = line.compareTo(prevLine);
+                    }
+
+                    boolean isCorrectOrder = (sortingMode == SortingMode.ASCENDING && comparison >= 0) ||
+                            (sortingMode == SortingMode.DESCENDING && comparison <= 0);
+
+                    if (!isCorrectOrder) {
+                        return false; // Файл не отсортирован
+                    }
                 }
                 prevLine = line;
             }
             return true; // Файл отсортирован
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             System.err.println("Ошибка при проверке файла: " + e.getMessage());
             return false;
         }
