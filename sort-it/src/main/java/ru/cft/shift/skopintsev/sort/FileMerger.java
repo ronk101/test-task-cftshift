@@ -60,13 +60,19 @@ public class FileMerger {
             String line2 = reader2.readLine();
 
             while (line1 != null && line2 != null) {
-                if ((dataType == DataType.NUMERIC && Integer.parseInt(line1) <= Integer.parseInt(line2)) ||
-                        (dataType == DataType.STRING && line1.compareTo(line2) <= 0)) {
-                    writeLine(mergedWriter, line1);
-                    line1 = reader1.readLine();
+                if ((dataType == DataType.NUMERIC && isNumeric(line1) && isNumeric(line2)) ||
+                        (dataType == DataType.STRING)) {
+                    if ((dataType == DataType.NUMERIC && Integer.parseInt(line1) <= Integer.parseInt(line2)) ||
+                            (dataType == DataType.STRING && line1.compareTo(line2) <= 0)) {
+                        writeLine(mergedWriter, line1);
+                        line1 = reader1.readLine();
+                    } else {
+                        writeLine(mergedWriter, line2);
+                        line2 = reader2.readLine();
+                    }
                 } else {
-                    writeLine(mergedWriter, line2);
-                    line2 = reader2.readLine();
+                    System.out.println("Ошибка: Что-то не так с типом данных");
+                    System.exit(1);
                 }
             }
 
@@ -83,6 +89,16 @@ public class FileMerger {
 
         return mergedFileName;
     }
+
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 
     private String createTempFileName() throws IOException {
         File tempFile = File.createTempFile("merged", ".tmp");

@@ -1,6 +1,9 @@
 package ru.cft.shift.skopintsev;
 
+import ru.cft.shift.skopintsev.sort.FileMerger;
 import ru.cft.shift.skopintsev.utils.CommandLineParser;
+import ru.cft.shift.skopintsev.utils.DataType;
+import ru.cft.shift.skopintsev.utils.SortingMode;
 
 import java.util.List;
 
@@ -8,8 +11,8 @@ public class Main {
     public static void main(String[] args) {
         CommandLineParser parser = new CommandLineParser(args);
 
-        String sortingMode = parser.getSortingMode();
-        String dataType = parser.getDataType();
+        SortingMode sortingMode = parser.getSortingMode();
+        DataType dataType = parser.getDataType();
         String outputFile = parser.getOutputFile();
         List<String> inputFiles = parser.getInputFiles();
 
@@ -19,5 +22,8 @@ public class Main {
         for (String inputFile: inputFiles) {
             System.out.println(inputFile);
         }
+
+        FileMerger fileMerger = new FileMerger(inputFiles, outputFile, dataType);
+        fileMerger.mergeSortedFiles();
     }
 }

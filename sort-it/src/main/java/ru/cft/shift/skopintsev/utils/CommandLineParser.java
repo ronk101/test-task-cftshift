@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommandLineParser {
-    private String sortingMode;
-    private String dataType;
+    private SortingMode sortingMode;
+    private DataType dataType;
     private String outputFile;
     private final List<String> inputFiles;
 
@@ -14,6 +14,7 @@ public class CommandLineParser {
         inputFiles = new ArrayList<>();
         parseArgs(args);
     }
+
     private void parseArgs(String[] args) {
         if (args.length < 2) {
             printUsageAndExit();
@@ -21,16 +22,24 @@ public class CommandLineParser {
 
         int argIndex = 0;
 
-        if (args[argIndex].equals("-a") || args[argIndex].equals("-d")) {
-            sortingMode = args[argIndex++];
+        if (args[argIndex].equals("-a")) {
+            sortingMode = SortingMode.ASCENDING;
+            argIndex++;
+        } else if (args[argIndex].equals("-d")) {
+            sortingMode = SortingMode.DESCENDING;
+            argIndex++;
         } else {
-            sortingMode = "-a"; // По умолчанию сортировка по возрастанию
+            sortingMode = SortingMode.ASCENDING; // По умолчанию сортировка по возрастанию
         }
 
-        if (!args[argIndex].equals("-i") && !args[argIndex].equals("-s")) {
+        if (args[argIndex].equals("-i")) {
+            dataType = DataType.NUMERIC;
+        } else if (args[argIndex].equals("-s")) {
+            dataType = DataType.STRING;
+        } else {
             printUsageAndExit();
         }
-        dataType = args[argIndex++];
+        argIndex++;
 
         if (argIndex >= args.length) {
             printUsageAndExit();
@@ -51,11 +60,11 @@ public class CommandLineParser {
         System.exit(1);
     }
 
-    public String getSortingMode() {
+    public SortingMode getSortingMode() {
         return sortingMode;
     }
 
-    public String getDataType() {
+    public DataType getDataType() {
         return dataType;
     }
 
