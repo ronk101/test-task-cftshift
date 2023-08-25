@@ -24,5 +24,5 @@ cd target
 ```
 2. Запустите JAR файл, например:
 ```shell
-java -jar sort-it.jar [sorting mode] <data type> <output file> <input files...>"
+java -jar sort-it.jar [sorting mode] <data type> <output file> <input files...>
 ```
