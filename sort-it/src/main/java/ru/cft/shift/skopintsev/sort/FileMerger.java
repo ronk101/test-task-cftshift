@@ -102,10 +102,14 @@ public class FileMerger {
                             (sortingMode == SortingMode.DESCENDING && comparison >= 0);
 
                     if (shouldWriteLine1) {
-                        writeLine(mergedWriter, line1);
+                        if (!line1.contains(" ")) {
+                            writeLine(mergedWriter, line1);
+                        }
                         line1 = reader1.readLine();
                     } else {
-                        writeLine(mergedWriter, line2);
+                        if (!line2.contains(" ")) {
+                            writeLine(mergedWriter, line2);
+                        }
                         line2 = reader2.readLine();
                     }
                 } catch (NumberFormatException e) {
@@ -164,6 +168,11 @@ public class FileMerger {
             String prevLine = null;
             String line;
             while ((line = reader.readLine()) != null) {
+                // Пропуск строк с пробелами
+                if (line.contains(" ")) {
+                    continue;
+                }
+
                 if (prevLine != null && line.compareTo(prevLine) < 0) {
                     return false; // Файл не отсортирован
                 }
