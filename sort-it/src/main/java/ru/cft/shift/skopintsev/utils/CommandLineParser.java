@@ -1,7 +1,7 @@
 package ru.cft.shift.skopintsev.utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CommandLineParser {
@@ -11,7 +11,7 @@ public class CommandLineParser {
     private final List<String> inputFiles;
 
     public CommandLineParser(String[] args) {
-        inputFiles = new ArrayList<>();
+        inputFiles = new LinkedList<>();
         parseArgs(args);
     }
 

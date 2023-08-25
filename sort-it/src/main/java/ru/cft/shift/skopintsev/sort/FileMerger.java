@@ -4,16 +4,17 @@ import ru.cft.shift.skopintsev.utils.DataType;
 import ru.cft.shift.skopintsev.utils.SortingMode;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FileMerger {
-    private final List<String> sortedFiles;
+    private final LinkedList<String> sortedFiles;
     private final String outputFile;
     private final DataType dataType;
     private final SortingMode sortingMode;
 
     public FileMerger(List<String> sortedFiles, String outputFile, DataType dataType, SortingMode sortingMode) {
-        this.sortedFiles = sortedFiles;
+        this.sortedFiles = (LinkedList<String>) sortedFiles;
         this.outputFile = outputFile;
         this.dataType = dataType;
         this.sortingMode = sortingMode;
@@ -43,13 +44,13 @@ public class FileMerger {
 
     private void mergeMultipleFiles(BufferedWriter writer) throws IOException {
         while (sortedFiles.size() > 1) {
-            String firstFile = sortedFiles.remove(0);
-            String secondFile = sortedFiles.remove(0);
+            String firstFile = sortedFiles.poll();
+            String secondFile = sortedFiles.poll();
             String mergedFileName = mergeTwoFiles(firstFile, secondFile);
             sortedFiles.add(0, mergedFileName);
         }
 
-        copySingleFile(sortedFiles.get(0), writer);
+        copySingleFile(sortedFiles.getFirst(), writer);
     }
 
     private String mergeTwoFiles(String inputFile1, String inputFile2) throws IOException {

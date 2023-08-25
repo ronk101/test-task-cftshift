@@ -23,7 +23,7 @@ public class Main {
             System.out.println(inputFile);
         }
 
-        FileMerger fileMerger = new FileMerger(inputFiles, outputFile, dataType);
+        FileMerger fileMerger = new FileMerger(inputFiles, outputFile, dataType, sortingMode);
         fileMerger.mergeSortedFiles();
     }
 }
