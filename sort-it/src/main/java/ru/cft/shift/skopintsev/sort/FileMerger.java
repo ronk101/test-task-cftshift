@@ -1,6 +1,7 @@
 package ru.cft.shift.skopintsev.sort;
 
 import ru.cft.shift.skopintsev.utils.DataType;
+import ru.cft.shift.skopintsev.utils.SortingMode;
 
 import java.io.*;
 import java.util.List;
@@ -9,11 +10,13 @@ public class FileMerger {
     private final List<String> sortedFiles;
     private final String outputFile;
     private final DataType dataType;
+    private final SortingMode sortingMode;
 
-    public FileMerger(List<String> sortedFiles, String outputFile, DataType dataType) {
+    public FileMerger(List<String> sortedFiles, String outputFile, DataType dataType, SortingMode sortingMode) {
         this.sortedFiles = sortedFiles;
         this.outputFile = outputFile;
         this.dataType = dataType;
+        this.sortingMode = sortingMode;
     }
 
     public void mergeSortedFiles() {
@@ -60,10 +63,18 @@ public class FileMerger {
             String line2 = reader2.readLine();
 
             while (line1 != null && line2 != null) {
+                boolean shouldWriteLine1;
+
                 if ((dataType == DataType.NUMERIC && isNumeric(line1) && isNumeric(line2)) ||
                         (dataType == DataType.STRING)) {
-                    if ((dataType == DataType.NUMERIC && Integer.parseInt(line1) <= Integer.parseInt(line2)) ||
-                            (dataType == DataType.STRING && line1.compareTo(line2) <= 0)) {
+                    int comparison = dataType == DataType.NUMERIC ?
+                            Integer.compare(Integer.parseInt(line1), Integer.parseInt(line2)) :
+                            line1.compareTo(line2);
+
+                    shouldWriteLine1 = (sortingMode == SortingMode.ASCENDING && comparison <= 0) ||
+                            (sortingMode == SortingMode.DESCENDING && comparison >= 0);
+
+                    if (shouldWriteLine1) {
                         writeLine(mergedWriter, line1);
                         line1 = reader1.readLine();
                     } else {
