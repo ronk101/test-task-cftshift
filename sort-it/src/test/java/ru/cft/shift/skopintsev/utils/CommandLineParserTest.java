@@ -1,4 +1,5 @@
 package ru.cft.shift.skopintsev.utils;
+
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -10,8 +11,8 @@ public class CommandLineParserTest {
         String[] args = {"-d", "-i", "output.txt", "input1.txt", "input2.txt"};
         CommandLineParser parser = new CommandLineParser(args);
 
-        assertEquals("-d", parser.getSortingMode());
-        assertEquals("-i", parser.getDataType());
+        assertEquals(SortingMode.DESCENDING, parser.getSortingMode());
+        assertEquals(DataType.NUMERIC, parser.getDataType());
     }
 
     @Test
@@ -19,8 +20,8 @@ public class CommandLineParserTest {
         String[] args = {"-i", "output.txt", "input1.txt", "input2.txt"};
         CommandLineParser parser = new CommandLineParser(args);
 
-        assertEquals("-a", parser.getSortingMode());
-        assertEquals("-i", parser.getDataType());
+        assertEquals(SortingMode.ASCENDING, parser.getSortingMode());
+        assertEquals(DataType.NUMERIC, parser.getDataType());
     }
 
     @Test
@@ -28,7 +29,7 @@ public class CommandLineParserTest {
         String[] args = {"-s", "output.txt", "input1.txt", "input2.txt"};
         CommandLineParser parser = new CommandLineParser(args);
 
-        assertEquals("-s", parser.getDataType());
+        assertEquals(DataType.STRING, parser.getDataType());
     }
 
     @Test
@@ -51,4 +52,3 @@ public class CommandLineParserTest {
 
     //TODO сделать тесты для ошибок
 }
-

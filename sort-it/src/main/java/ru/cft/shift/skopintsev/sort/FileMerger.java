@@ -112,6 +112,8 @@ public class FileMerger {
                         }
                         line2 = reader2.readLine();
                     }
+
+
                 } catch (NumberFormatException e) {
                     // Пропускаем некорректные данные, переходим к следующим строкам
                     if (dataType == DataType.NUMERIC) {
